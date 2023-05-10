@@ -6,7 +6,7 @@ Point2SSM: Anatomical Statistical Shape Models from Point Clouds
 This code utilizes the following Pytorch 3rd-party libraries:
 - [ChamferDistancePytorch](https://github.com/ThibaultGROUEIX/ChamferDistancePytorch)
 - [emd](https://github.com/paul007pl/VRCNet)
-- PointNet
+- PointNet , same as VRCnet
 
 This code includes the following models:
 - [PointNet Autoencoder](https://github.com/optas/latent_3d_points) from ["Learning Representations and Generative Models For 3D Point Clouds"](https://arxiv.org/abs/1707.02392)
@@ -14,4 +14,4 @@ This code includes the following models:
 - Structure
 - CPAE
 - DPC
-- FSA 
+- PointAttN FSA
