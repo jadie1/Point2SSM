@@ -42,12 +42,16 @@ class MeshDataset(data.Dataset):
             self.scale_factor = scale_factor
 
         if self.subsample != None and set_type=='train':
-            sorted_indices = np.load(self.mesh_dir + "../importance_sampling_indices.npy")
-            indices = sorted_indices[:int(subsample)]
-            pts, nms = [], []
-            for index in indices:
-                pts.append(self.point_sets[index])
-                nms.append(self.names[index])
+            if os.path.exists(self.mesh_dir + "../importance_sampling_indices.npy"):
+                print("Using importance sampling.")
+                sorted_indices = np.load(self.mesh_dir + "../importance_sampling_indices.npy")
+                indices = sorted_indices[:int(self.subsample)]
+                pts, nms = [], []
+                for index in indices:
+                    pts.append(self.point_sets[index])
+                    nms.append(self.names[index])
+            else:
+                pts, nms = self.point_sets[:int(self.subsample)], self.names[:int(self.subsample)]
             self.point_sets = pts
             self.names = nms
         
