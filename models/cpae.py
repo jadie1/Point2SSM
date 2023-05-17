@@ -1,5 +1,5 @@
 # Learning 3D Dense Correspondence via Canonical Point Autoencoder
-# https://github.com/AnjieCheng/CanonicalPAE
+# Source: https://github.com/AnjieCheng/CanonicalPAE
 
 import numpy as np
 import torch
@@ -10,6 +10,40 @@ from torch.autograd import Variable
 import os
 import math
 import scipy
+
+criterion = torch.nn.MSELoss()
+
+import os
+import sys
+proj_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(os.path.join(proj_dir, "utils/emd"))
+import emd_module as emd
+sys.path.append(os.path.join(proj_dir, "utils/ChamferDistancePytorch"))
+from chamfer3D import dist_chamfer_3D
+
+def EMD_loss(esti_shapes, shapes):
+    emd_dist = emd.emdModule()
+    dist, assigment = emd_dist(esti_shapes, shapes, 0.005, 50)
+    loss_emd = torch.sqrt(dist).mean(1).mean()
+    return loss_emd
+
+def CD_loss(esti_shapes, shapes):
+    cf_dist = dist_chamfer_3D.chamfer_3DDist()
+    dist1, dist2, idx1, idx2 = cf_dist(esti_shapes, shapes)
+    loss_cd = torch.mean(torch.sqrt(dist1)) + torch.mean(torch.sqrt(dist2))
+    return loss_cd
+
+def unfold_loss(esti_shapes, shapes, full_loss=False):
+    cf_dist = dist_chamfer_3D.chamfer_3DDist()
+    dist1, dist2, idx1, idx2 = cf_dist(esti_shapes, shapes) # idx1[16, 2048] idx2[16, 2562]
+    if full_loss:
+        loss_cd = torch.mean(torch.sqrt(dist1)) + torch.mean(torch.sqrt(dist2))
+    else:
+        loss_cd = torch.mean(torch.sqrt(dist1))
+    return loss_cd
+
+def selfrec_loss(esti_shapes, shapes):
+    return criterion(esti_shapes, shapes)
 
 class Model(nn.Module):
     def __init__(self, args):
@@ -40,7 +74,7 @@ class Model(nn.Module):
             return cd_p
 
     # https://github.com/AnjieCheng/CanonicalPAE/blob/dc1806412050f4ae9f532fe5f246b04c90fcca4d/correspondence/unfoldnet/training.py#L192
-    def forward(self, x, gt, is_training=True):
+    def forward(self, x, gt, is_training=True, epoch=0):
         # get features
         z = self.encoder(x)
         # unfold
@@ -52,17 +86,22 @@ class Model(nn.Module):
             # generate template
             batch_p_2d = batch_sample_from_2d_grid(self.grid, self.num_input, batch_size=x.shape[0], without_sample=True)
             # unfold loss
-            loss_unfold = self.loss_unfold_lambda*self.chamfer_loss(unfold_pts, batch_p_2d).mean()
+            use_full_loss = False if epoch >= 100 else True
+            unfold_loss_alpha = 20 if epoch >= 100 else 10
+            loss_unfold = unfold_loss_alpha*CD_loss(unfold_pts, batch_p_2d).mean()
             # recon loss
-            loss_recon = self.loss_mse_lambda*torch.nn.functional.mse_loss(self_rec_shape, x) 
-            loss_recon += self.loss_cd_lambda*self.chamfer_loss(self_rec_shape, x).mean() 
-            loss_recon += self.loss_emd_lambda*calc_emd(self_rec_shape, x).mean()
+            loss_recon = 1000*selfrec_loss(self_rec_shape, x) + 10*CD_loss(self_rec_shape, x) + EMD_loss(self_rec_shape, x)
             # cross loss 
-            cross_unfold_pts = torch.cat((unfold_pts[1:,:,:], unfold_pts[:1,:,:]), dim=0)
-            cross_rec_shapes = self.fold(z, cross_unfold_pts)
-            loss_cr = self.loss_cross_lambda*self.chamfer_loss(cross_rec_shapes, x).mean()
-            # total loss
-            loss = (loss_unfold + loss_recon + loss_cr) #/100 # scale to be more commensurate with other models
+            if epoch >= 100:
+                # cross-reconstruction loss
+                cross_unfold_pts = torch.cat((unfold_pts[1:,:,:], unfold_pts[:1,:,:]), dim=0)
+                cross_rec_shapes = self.fold(z, cross_unfold_pts)
+                loss_cr = self.loss_cross_lambda*self.chamfer_loss(cross_rec_shapes, x).mean()
+                loss_cr = 10 * CD_loss(cross_rec_shapes, x)
+                loss = loss_unfold.mean() + loss_recon.mean() + loss_cr.mean() 
+            else:
+                loss = loss_unfold.mean() + loss_recon.mean()
+            
             return self_rec_shape, loss
         else:
             cd_p, cd_t = calc_cd(self_rec_shape, gt) 

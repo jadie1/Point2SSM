@@ -1,5 +1,6 @@
 # DPC: Unsupervised Deep Point Correspondence via Cross and Self Construction
-# 
+# Source: https://github.com/dvirginz/DPC
+
 import numpy as np
 import torch
 import torch.nn as nn

@@ -1,5 +1,5 @@
 # Unsupervised Learning of Intrinsic Structural Representation (ISR) Points
-# https://github.com/NolenChen/3DStructurePoints
+# Source: https://github.com/NolenChen/3DStructurePoints
 
 import torch
 import torch.nn as nn
@@ -132,10 +132,3 @@ class Model(nn.Module):
         else:
             cd_p, cd_t = calc_cd(pred, gt) 
             return {'recon': pred, 'cd_p': cd_p, 'cd_t': cd_t}
-
-
-
-
-
-
- 

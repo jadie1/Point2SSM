@@ -1,5 +1,5 @@
 # Learning Representations and Generative Models for 3D Point Clouds
-# https://github.com/optas/latent_3d_points/blob/master/src/encoders_decoders.py
+# Source: https://github.com/optas/latent_3d_points/blob/master/src/encoders_decoders.py
 import numpy as np
 import torch
 import torch.nn as nn
