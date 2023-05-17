@@ -1,0 +1,34 @@
+!munch.Munch
+alpha: 0.1
+batch_size: 8
+best_model_path: experiments/spleen/point2ssm/trained_network.pth
+betas: 0.9, 0.999
+dataset: spleen
+device: cuda:0
+early_stop: true
+early_stop_patience: 100
+early_stop_start: 0
+encoder: dgcnn
+epoch_interval_to_save: 10
+epoch_interval_to_val: 1
+latent_dim: 128
+load_model: null
+loss: cd_t
+lr: 0.0001
+lr_decay: false
+manual_seed: null
+missing_percent: null
+model_name: point2ssm
+nepoch: 3000
+noise_level: null
+num_input_points: 1024
+num_output_points: 1024
+optimizer: Adam
+save_predictions: true
+scale_factor: 73.91079711914062
+start_epoch: 0
+step_interval_to_print: 400
+train_subset_size: null
+weight_decay: 0
+work_dir: experiments/
+workers: 0

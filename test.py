@@ -79,7 +79,7 @@ def test(test_set):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Test config file')
     parser.add_argument('-c', '--config', help='path to config file', required=True)
-    parser.add_argument('-t', '--test_set', help='train or test', default='all')
+    parser.add_argument('-t', '--test_set', help='train or test', default='test')
     arg = parser.parse_args()
     config_path = arg.config
     args = munch.munchify(yaml.safe_load(open(config_path)))
