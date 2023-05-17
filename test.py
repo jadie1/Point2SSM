@@ -16,9 +16,9 @@ from utils.train_utils import *
 
 def test(test_set):
     if args.model_name == 'dpc':
-        dataset_test = DPC_Dataset(args, test_set, scale_factor=args.scale_factor, sigma_squared=args.sigma_squared, ref_path=args.ref_path)
+        dataset_test = DPC_Dataset(args, test_set, scale_factor=args.scale_factor, ref_path=args.ref_path)
     else:
-        dataset_test = MeshDataset(args, test_set, scale_factor=args.scale_factor, sigma_squared=args.sigma_squared)
+        dataset_test = MeshDataset(args, test_set, scale_factor=args.scale_factor)
     dataloader_test = torch.utils.data.DataLoader(dataset_test, batch_size=1, shuffle=False, num_workers=int(args.workers))
     dataset_length = len(dataset_test)
     logging.info('Length of test dataset:%d', len(dataset_test))

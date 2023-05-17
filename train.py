@@ -31,12 +31,12 @@ def train():
 
     if args.model_name == 'dpc':
         dataset = DPC_Dataset(args, 'train')
-        scale_factor, sigma_squared = dataset.get_scale_factor(), dataset.get_sigma_squared()
-        dataset_test = DPC_Dataset(args, 'val', scale_factor=scale_factor, sigma_squared=sigma_squared, ref_path=args.ref_path)
+        scale_factor = dataset.get_scale_factor()
+        dataset_test = DPC_Dataset(args, 'val', scale_factor=scale_factor, ref_path=args.ref_path)
     else:
         dataset = MeshDataset(args, 'train')
-        scale_factor, sigma_squared = dataset.get_scale_factor(), dataset.get_sigma_squared()
-        dataset_test = MeshDataset(args, 'val', scale_factor=scale_factor, sigma_squared=sigma_squared)
+        scale_factor = dataset.get_scale_factor()
+        dataset_test = MeshDataset(args, 'val', scale_factor=scale_factor)
     
     dataloader = torch.utils.data.DataLoader(dataset, batch_size=args.batch_size, shuffle=True, num_workers=int(args.workers))
     dataloader_test = torch.utils.data.DataLoader(dataset_test, batch_size=args.batch_size, shuffle=False, num_workers=int(args.workers))
@@ -109,8 +109,12 @@ def train():
             else:
                 pc, gt, names = data
                 pc, gt = pc.to(device), gt.to(device)
-                inputs = pc.contiguous() 
-                out, loss = net(inputs, gt)
+                inputs = pc.contiguous()
+                if args.model_name == 'cpae':
+                    out, loss = net(inputs, gt, epoch=epoch)
+                else:
+                    out, loss = net(inputs, gt)
+
 
             train_loss_meter.update(loss.mean().item())
             loss.backward()
@@ -140,7 +144,6 @@ def train():
 
     args['best_model_path'] = log_dir+'/best_cd_p_network.pth'
     args['scale_factor'] = scale_factor
-    args['sigma_squared'] = sigma_squared
     return
 
 
@@ -207,7 +210,7 @@ if __name__ == "__main__":
         else:
             exp_name = args.model_name
         exp_name += '_'+print_time.replace(':',"-")
-        log_dir = os.path.join(args.work_dir, exp_name)
+        log_dir = os.path.join(args.work_dir, args.dataset, exp_name)
         if not os.path.exists(log_dir):
             os.makedirs(log_dir)
     print(log_dir)

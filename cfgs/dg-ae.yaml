@@ -1,0 +1,39 @@
+!munch.Munch
+dataset: spleen
+work_dir: experiments/
+batch_size: 8
+model_name: ae
+encoder: dgcnn
+device: cuda:0
+
+num_input_points: 1024
+latent_dim: 128
+num_output_points: 1024
+
+missing_percent: null
+train_subset_size: null
+noise_level: null
+
+loss: cd_t
+nepoch: 3000
+early_stop: True
+early_stop_patience: 100
+early_stop_start: 0
+
+optimizer: Adam
+betas: 0.9, 0.999
+lr: 0.0001
+lr_decay: False
+
+manual_seed: null
+weight_decay: 0
+workers: 0
+
+epoch_interval_to_save: 10
+epoch_interval_to_val: 1
+step_interval_to_print: 400
+
+save_predictions: true
+
+load_model: null
+start_epoch: 0

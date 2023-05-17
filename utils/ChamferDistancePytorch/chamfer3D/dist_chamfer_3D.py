@@ -18,7 +18,7 @@ if not chamfer_found:
 
 else:
     import chamfer_3D
-    print("Loaded compiled 3D CUDA chamfer distance")
+    # print("Loaded compiled 3D CUDA chamfer distance")
 
 
 # Chamfer's distance module @thibaultgroueix
