@@ -50,3 +50,5 @@ This code includes the following models:
 - [ISR](https://github.com/NolenChen/3DStructurePoints)
 - [DPC](https://github.com/dvirginz/DPC)
 - [PointAttN (SFA Block)](https://github.com/ohhhyeahhh/PointAttN)
+
+The original, unaligned meshes are from the [Medical Segmentation Decathlon](http://medicaldecathlon.com/).
