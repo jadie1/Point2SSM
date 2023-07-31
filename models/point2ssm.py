@@ -97,6 +97,19 @@ class Model(nn.Module):
             cd_p, cd_t = calc_cd(pred, gt) 
             return {'recon': pred, 'cd_p': cd_p, 'cd_t': cd_t}
 
+    def get_prob_map(self, x):
+        z, features = self.encoder(x)
+
+        if self.encoder_name == 'dgcnn':
+            features = features.transpose(2,1)
+
+        prob_map = self.attn_module(features)
+
+        pred = torch.sum(prob_map[:, :, :, None] * x[:, None, :, :], dim=2)
+
+        return prob_map, pred
+
+
 
 class Attention_Module(nn.Module):
     def __init__(self, latent_dim, num_output):
