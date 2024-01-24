@@ -1,5 +1,5 @@
 # Point2SSM
-Implementation of "[Point2SSM: Anatomical Statistical Shape Models from Point Clouds](https://arxiv.org/abs/2305.14486)" spotlight presentation at ICLR 2024. Please cite this paper if you use the code. 
+Implementation of "[Point2SSM: Learning Morphological Variations of Anatomies from Point Cloud](https://arxiv.org/abs/2305.14486)" spotlight presentation at ICLR 2024. Please cite this paper if you use the code. 
 
 This code includes the proposed Point2SSM model, as well as implementations of:
 - PointNet Autoencoder from ["Learning Representations and Generative Models For 3D Point Clouds"](https://arxiv.org/abs/1707.02392)
