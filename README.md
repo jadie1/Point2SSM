@@ -56,6 +56,8 @@ To test a model, call `test.py` with the appropriate config yaml file. For examp
 ```
 python test.py -c experiments/spleen/point2ssm/point2ssm.yaml
 ```
+Note the output Chamfer distance is computed on scaled data, whereas the values reported in the paper are computed on the unscaled data. 
+When `test.py` is run, the predicted points are written to files. 
 
 
 ## Acknowledgements
