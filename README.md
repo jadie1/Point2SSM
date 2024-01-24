@@ -17,7 +17,27 @@ To setup an anaconda environment, run:
 source setup.sh
 ```
 
-Aligned spleen and pancreas data, as well as pretrained Point2SSM models can be downloaded here: [Dropbox Link](https://www.dropbox.com/s/i0t6zpda0v9odrp/Point2SSM-Anonymous-Submission-20230519T161512Z-001.zip?dl=0)
+### Med Decathalon Datasets 
+The spleen and pancreas public datasets used in the paper are available here: http://medicaldecathlon.com/.
+The data is available with a permissive copyright-license (CC-BY-SA 4.0), allowing for data to be shared, distributed and improved upon. All data has been labeled and verified by an expert human rater, and with the best effort to mimic the accuracy required for clinical use. To cite this data, please refer to https://arxiv.org/abs/1902.09063.
+
+#### Aligned Version of the Pancreas Dataset
+Aligned versions of the Med Decathalon datasets were used for benchmarking in the paper. Alignment and pre-processing was performed using [ShapeWorks](https://www.sci.utah.edu/software/shapeworks.html/) mesh grooming tools. The aligned version of the pancreas data can be downloaded at [https://www.shapeworks-cloud.org/#/](https://www.shapeworks-cloud.org/#/) with a free account. 
+
+If you use this pre-processed dataset in work that leads to published research, we humbly ask that you cite ShapeWorks, and add the following to the 'Acknowledgments' section of your paper:
+"The National Institutes of Health supported this work under grant numbers NIBIB-U24EB029011, NIAMS-R01AR076120, NHLBI-R01HL135568, NIBIB-R01EB016701, and NIGMS-P41GM103545."
+and add the following 'disclaimer': "The content is solely the responsibility of the authors and does not necessarily represent the official views of the National Institutes of Health."
+When referencing this dataset groomed with ShapeWorks, please include a bibliographical reference to the paper below, and, if possible, include a link to [shapeworks.sci.utah.edu](https://www.sci.utah.edu/software/shapeworks.html/).
+```
+    @incollection{cates2017shapeworks,
+    title = {Shapeworks: particle-based shape correspondence and visualization software},
+    author = {Cates, Joshua and Elhabian, Shireen and Whitaker, Ross},
+    booktitle = {Statistical Shape and Deformation Analysis},
+    pages = {257--298},
+    year = {2017},
+    publisher = {Elsevier}
+    }
+```
 
 
 ## Model Training
@@ -51,4 +71,3 @@ This code includes the following models:
 - [DPC](https://github.com/dvirginz/DPC)
 - [PointAttN (SFA Block)](https://github.com/ohhhyeahhh/PointAttN)
 
-The original, unaligned meshes are from the [Medical Segmentation Decathlon](http://medicaldecathlon.com/).
