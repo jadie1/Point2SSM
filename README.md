@@ -1,5 +1,16 @@
 # Point2SSM
-Implementation of "[Point2SSM: Learning Morphological Variations of Anatomies from Point Cloud](https://arxiv.org/abs/2305.14486)" spotlight presentation at ICLR 2024. Please cite this paper if you use the code. 
+Implementation of "[Point2SSM: Learning Morphological Variations of Anatomies from Point Cloud](https://arxiv.org/abs/2305.14486)" spotlight presentation at ICLR 2024. 
+
+Please cite this paper if you use the code in work that leads to published research:
+```
+@inproceedings{adams2023point2ssm,
+    title={{Point2SSM: Learning Morphological Variations of Anatomies from Point Clouds}},
+    author={Jadie Adams and Shireen Elhabian},
+    booktitle={The Twelfth International Conference on Learning Representations},
+    year={2024},
+    url={https://openreview.net/forum?id=DqziS8DG4M}
+}
+```
 
 This code includes the proposed Point2SSM model, as well as implementations of:
 - PointNet Autoencoder from ["Learning Representations and Generative Models For 3D Point Clouds"](https://arxiv.org/abs/1707.02392)
@@ -25,7 +36,7 @@ The original, unaligned data is available here: http://medicaldecathlon.com/.
 The data is available with a permissive copyright-license (CC-BY-SA 4.0), allowing for data to be shared, distributed and improved upon. All data has been labeled and verified by an expert human rater, and with the best effort to mimic the accuracy required for clinical use. To cite this data, please refer to https://arxiv.org/abs/1902.09063.
 
 ### Aligned Medical Decathlon Data
-Alignment and pre-processing was performed using [ShapeWorks](https://www.sci.utah.edu/software/shapeworks.html/) mesh grooming tools. The aligned spleen dataset is available in this repo in the `data/spleen/` folder. The aligned version of the pancreas data can be downloaded using `download.py` if you make a free account at [https://www.shapeworks-cloud.org/#/](https://www.shapeworks-cloud.org/#/) with a free account. 
+Alignment and pre-processing was performed using [ShapeWorks](https://www.sci.utah.edu/software/shapeworks.html/) mesh grooming tools. The aligned spleen dataset is available in this repo in the `data/spleen/` folder. The aligned version of the pancreas data can be downloaded using `download.py` if you make a free account at [https://www.shapeworks-cloud.org/#/](https://www.shapeworks-cloud.org/#/). 
 
 If you use either of these pre-processed datasets in work that leads to published research, we humbly ask that you cite ShapeWorks, and add the following to the 'Acknowledgments' section of your paper:
 "The National Institutes of Health supported this work under grant numbers NIBIB-U24EB029011, NIAMS-R01AR076120, NHLBI-R01HL135568, NIBIB-R01EB016701, and NIGMS-P41GM103545."
